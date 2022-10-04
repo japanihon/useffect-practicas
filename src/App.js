@@ -4,6 +4,7 @@ import './App.css';
 import Lifecycle from './Lifecycle'
 import FetchCard from './FetchCard'
 import Divider from './Divider'
+import Post from './Posts'
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
         <Lifecycle />
         <Divider />
         <FetchCard />
+        <Divider />
+        <Post />
       </header>
     </div>
   );

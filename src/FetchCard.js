@@ -1,15 +1,16 @@
 import React from 'react'
 
-import getUser from './Helpers/getUser'
+import getUser from './Helpers/getUser' 
 
-const initialUser = {
+/* const initialUser = {
     name: "",
     email: "",
 }
+*/
 
 const FetchCard = () => {
 
-const [user, setUser] = React.useState(initialUser);
+const [user, setUser] = React.useState("");
 
 const updateUser = () => {
     getUser().then(newUser => {
