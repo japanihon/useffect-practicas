@@ -1,39 +1,59 @@
-import React from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
+import getUser from './Helpers/getUser';
+import getPosts from './Helpers/getPosts';
 
-import getUser from './Helpers/getUser' 
-
-/* const initialUser = {
-    name: "",
-    email: "",
-}
-*/
 
 const FetchCard = () => {
+    const [user, setUser] = useState({});
+    const [posts, setsPosts] = useState([]);
 
-const [user, setUser] = React.useState("");
+    const updateUser = () => {
+        getUser()
+            .then((newUser) => {
+                setUser(newUser);
+            })
+    }
 
-const updateUser = () => {
-    getUser().then(newUser => {
-        setUser(newUser);
-    })
-}
+    const updatePosts = useCallback(() => {
+        getPosts(user.id)
+            .then((newPosts) => {
+                setsPosts(newPosts);
+            })
+    }, [user.id]);
+        
+    useEffect(() => {
+        updateUser();
+    }, []);
 
-// Usamos el useEffect para renderizar esta funcion solo cuando se carga el componente // 
+    useEffect(() => {
+        if(user?.id) {
+            updatePosts();
+        }
+    }, [user, updatePosts]);
+    
+    return (
+        <div>
+           
+            <h1> Name: {user.name}</h1>
+            <h2> Email: {user.email}</h2>
 
-React.useEffect(() => {
-    updateUser();
-}, []);
-
-
-
-  return (
-    <div> 
-    <h1> Fetch Card Api  </h1>
-    <h1> {user.name}  </h1>
-    <h1> {user.email}  </h1>
-    <button onClick={updateUser}> Update User </button>
-    </div>
-  )
+            <br/>
+              <button 
+              onClick={updateUser}
+              style={{ backgroundColor: "pink"}}
+              >
+                Update User
+            </button>
+            <h2>Posts User ID: {user.id} </h2>
+            <div>
+                {posts.map(post => (
+                    <p key={post.id}
+                    
+                    >{post.title}</p>
+                ))}
+            </div>
+        </div>
+    )
 }
 
 export default FetchCard
